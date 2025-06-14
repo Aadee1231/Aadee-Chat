@@ -1,16 +1,12 @@
 import modal
-import sys
 
 app = modal.App(name="aadeechat-backend")
 
-# Add current directory to Python path so Modal can find main.py
-sys.path.append(".")
-
-# Build image with FastAPI and Uvicorn
 image = modal.Image.debian_slim().pip_install("fastapi", "uvicorn")
 
-@app.function(image=image, keep_warm=1)
+@app.function(image=image, min_containers=1)  # Use min_containers instead of deprecated keep_warm
 @modal.asgi_app()
-def fastapi_app():
-    from main import app as fastapi_app
-    return fastapi_app
+def app_entry():
+    from main import app
+    return app
+
