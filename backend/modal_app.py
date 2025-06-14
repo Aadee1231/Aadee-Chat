@@ -1,12 +1,11 @@
 import modal
 
-app = modal.App(name="aadeechat-backend")
+stub = modal.Stub("aadee-backend")
 
 image = modal.Image.debian_slim().pip_install("fastapi", "uvicorn")
 
-@app.function(image=image, min_containers=1)  # Use min_containers instead of deprecated keep_warm
+@stub.function(image=image, keep_warm=1)
 @modal.asgi_app()
-def app_entry():
-    from main import app
-    return app
-
+def app():
+    from main import app as fastapi_app
+    return fastapi_app

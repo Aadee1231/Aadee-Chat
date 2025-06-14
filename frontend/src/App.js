@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
-
-const BACKEND_URL=process.env.REACT_APP_BACKEND_URL;
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [ping, setPing] = useState("");
+  const [ping, setPing] = useState('');
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/ping`)
-      .then((res) => res.json())
-      .then((data) => setPing(data.message))
-      .catch((err) => setPing("Error: Could not connect to backend"));
+    fetch('http://localhost:8000/ping')
+      .then(res => res.json())
+      .then(data => setPing(data.message))
+      .catch(err => setPing('Error connecting to backend'));
   }, []);
 
   return (
